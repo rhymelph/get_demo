@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
             binding: BindingsBuilder(() {})),
         GetPage(
             name: '/detail',
-            page: () => const HomeDetail(),
+            page: () =>  HomeDetail(),
             binding: BindingsBuilder(() {
               Get.put(HomeDetailController());
             })),
@@ -65,19 +65,23 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class HomeDetail extends GetView<HomeDetailController> {
-  const HomeDetail({Key? key}) : super(key: key);
+   HomeDetail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeDetailController>(
-      init: controller,
-      builder:(_)=> Scaffold(
-        appBar: AppBar(
-          title: const Text('Home Detail'),
-        ),
-        body: Center(
-          child: Obx(() => Text('Number is ${controller.number.value}')),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Detail'),
+        actions: [
+          IconButton(onPressed: (){
+            Get.offNamed('/detail',arguments: {
+              'number':controller.number.value+1
+            },preventDuplicates: false);
+          }, icon: Icon(Icons.refresh),)
+        ],
+      ),
+      body: Center(
+        child: Obx(() => Text('Number is ${controller.number.value}')),
       ),
     );
   }
