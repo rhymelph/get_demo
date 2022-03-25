@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             name: '/detail',
             page: () => const HomeDetail(),
             binding: BindingsBuilder(() {
-              Get.lazyPut(() => HomeDetailController());
+              Get.put(HomeDetailController());
             })),
       ],
     );
@@ -69,12 +69,15 @@ class HomeDetail extends GetView<HomeDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Detail'),
-      ),
-      body: Center(
-        child: Obx(() => Text('Number is ${controller.number.value}')),
+    return GetBuilder<HomeDetailController>(
+      init: controller,
+      builder:(_)=> Scaffold(
+        appBar: AppBar(
+          title: const Text('Home Detail'),
+        ),
+        body: Center(
+          child: Obx(() => Text('Number is ${controller.number.value}')),
+        ),
       ),
     );
   }
